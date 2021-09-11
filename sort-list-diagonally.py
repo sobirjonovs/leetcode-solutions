@@ -35,9 +35,11 @@ def sort_diagonally(matrix):
     show_diagonals = []
     
     for key, values in diagonals_counter.items():
+        
       diagonals = list(diagonals_counter.values())
       diagonals = diagonals[0:key + 1]
       current = []
+    
       for i, diagonal in enumerate(diagonals):
         index = key - i
         
