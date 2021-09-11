@@ -41,7 +41,6 @@ def sort_diagonally(matrix):
       current = []
       for i, diagonal in enumerate(diagonals):
         index = key - i
-        # print(that, diagonal, len(diagonal), i, key)
         if index >= len(diagonal):
           that = diagonal[:index]
         else:
