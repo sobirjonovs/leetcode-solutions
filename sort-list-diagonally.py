@@ -6,13 +6,11 @@ def sort_diagonally(matrix):
     for key, sub_matrix in enumerate(matrix):
       diagonals = []
       outer_diagonals = []
-
       diagonals_counter[key] = []
       
       for sub_key, sub_element in reversed(list(enumerate(sub_matrix))):
 
         list_counter = key
-
         next_diagonal_index = sub_key - sub_matrix_length
           
         while next_diagonal_index < 0:
@@ -42,13 +40,16 @@ def sort_diagonally(matrix):
       current = []
       for i, diagonal in enumerate(diagonals):
         index = key - i
+        
         if index >= len(diagonal):
           that = diagonal[:index]
         else:
           that = diagonal[index:]
+        
         for d_key, d_value in enumerate(that):
           if index < len(d_value):
             current.append(d_value[index])
+            
       show_diagonals.append(list(reversed(current)))
     
     return show_diagonals
