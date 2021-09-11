@@ -1,67 +1,54 @@
-# Read the description, please!
-
-matrix = [
-	[75,21,13,24,8],
-	[24,100,40,49,62], 
-	[45, 34, 12, 33, 54], 
-	[98, 76, 99, 100, 1]
-]
-
 def sort_diagonally(matrix):
-    current_iteration = 0
-    iterations = 0
-    mats = list(enumerate(matrix))
-    sub_matrix = mats[current_iteration][1]
-    index = len(sub_matrix) - 1
-    diagonals_finder = {}
+    matrix_length = len(matrix)
+    sub_matrix_length = len(matrix[0])
+    diagonals_counter = {}
 
-    while True:
+    for key, sub_matrix in enumerate(matrix):
+      diagonals = []
+      outer_diagonals = []
 
-        if (len(mats) * len(sub_matrix)) == iterations:
-            break
+      diagonals_counter[key] = []
+      
+      for sub_key, sub_element in reversed(list(enumerate(sub_matrix))):
 
-        if index == -1:
-            current_iteration += 1
-            sub_matrix = mats[current_iteration][1]
-            index = len(sub_matrix) - 1
+        list_counter = key
 
-        head_value = sub_matrix[index]
-        current_list = mats[current_iteration][0] + 1
-        diagonals_count = len(mats) - index
+        next_diagonal_index = sub_key - sub_matrix_length
+          
+        while next_diagonal_index < 0:
 
-        if current_list > index:
-            diagonals_count = diagonals_count - (current_list - index)
+          if list_counter < matrix_length:
+            diagonal = matrix[list_counter][next_diagonal_index]
+            diagonals.append(diagonal)
 
-        if iterations < len(sub_matrix) or index + iterations == iterations:
-            c_in = f"{head_value}-{current_list - 1}-{index}"
-            diagonals_finder[c_in] = []
-            temp_diagonals = diagonals_count
-            next_list = current_list
-            next_diagonal_value = index - len(mats)
-            while temp_diagonals >= 0:
-                if temp_diagonals == 0:
-                    diagonals_finder[c_in].insert(0, head_value)
-                else:
-                    diagonals_finder[c_in].append(matrix[next_list][next_diagonal_value])
-                temp_diagonals -= 1
-                next_list += 1
-                next_diagonal_value += 1
+          next_diagonal_index += 1
+          list_counter += 1
+        
+        outer_diagonals = sorted(diagonals)
 
-        index -= 1
-        iterations += 1
+        if key == 0:
+          diagonals_counter[key].append(outer_diagonals)
+        diagonals = []
 
-    diagonals_finder = {key: sorted(item) for key, item in diagonals_finder.items()}
-
-    for key, item in diagonals_finder.items():
-        diagonals_count = len(item)
-        info = key.split('-')
-        value_index = int(info.pop())
-        list_index = int(info.pop())
-        for i in range(diagonals_count):
-            matrix[list_index][value_index] = item[i]
-            list_index += 1
-            value_index += 1
-
-    return matrix
-
-print(sort_diagonally(matrix))
+      if key != 0:
+        diagonals_counter[key].append(outer_diagonals)
+      outer_diagonals = []
+    
+    show_diagonals = []
+    for key, values in diagonals_counter.items():
+      diagonals = list(diagonals_counter.values())
+      diagonals = diagonals[0:key + 1]
+      current = []
+      for i, diagonal in enumerate(diagonals):
+        index = key - i
+        # print(that, diagonal, len(diagonal), i, key)
+        if index >= len(diagonal):
+          that = diagonal[:index]
+        else:
+          that = diagonal[index:]
+        for d_key, d_value in enumerate(that):
+          if index < len(d_value):
+            current.append(d_value[index])
+      show_diagonals.append(list(reversed(current)))
+    
+    return show_diagonals
